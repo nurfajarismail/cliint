@@ -80,3 +80,27 @@ function del() {
 
     })
 }
+
+function createdata(){
+    let urls = "http://localhost:8080/GUDANG/webresources/gudang.barang";
+    let view = document.getElementById('add');
+    let idinput = document.getElementById('inputid');
+    let id = idinput.elements[0].value;
+    let nama = idinput.elements[1].value;
+    let nim = idinput.elements[2].value;
+    let xml = '<mahasiswa>';
+        xml += '<id>'+id+'</id><nama>'+nama+'</nama><nim>'+nim+'</nim>';
+        xml += '</mahasiswa>';
+    $.ajax ({
+        url : urls,
+        method : 'POST',
+        contentType: 'application/xml',
+        data: xml,
+        success : function (resp) {
+            view.innerHTML = '1 baris dengan id'+id+' sudah ditambahkan';
+        },
+        fail: function (e) {
+            view.innerHTML = 'Data gagal disimpan';
+        }
+    })
+}
