@@ -1,7 +1,7 @@
 function show() {
     let view = document.getElementById("view");
     let urls = "http://localhost:8080/GUDANG/webresources/gudang.barang";
-    view.innerHTML = "Show here";
+
 
     $.ajax({
         url: urls,
@@ -41,12 +41,12 @@ function findbyid() {
         dataType: "xml",
         success: function (resp) {
             if (resp != null) {
-                
+
                 let id = resp.getElementsByTagName('ibd')[0].childNodes[0].nodeValue;
                 let namabarang = resp.getElementsByTagName('namabarang')[0].childNodes[0].nodeValue;
                 let jumlah = resp.getElementsByTagName('jumlah')[0].childNodes[0].nodeValue;
 
-                view.innerHTML = id + " - " +namabarang+ " - " +jumlah;
+                view.innerHTML = id + " - " + namabarang + " - " + jumlah;
 
             }
             else (view.innerHTML = "Data tidak ada")
@@ -57,9 +57,65 @@ function findbyid() {
     })
 
 }
-function edit() {
-    let view = document.getElementById("view");
-    view.innerHTML = "Edit here";
+
+
+function findforedit() {
+    let idn = document.getElementById("ibd").value;
+    let urls = "http://localhost:8080/GUDANG/webresources/gudang.barang";
+    let nurl = urls + "/" + idn;
+    $.ajax({
+        url: nurl,
+        method: "GET",
+        dataType: "xml",
+        success: function (resp) {
+            if (resp != null) {
+
+                let id = resp.getElementsByTagName('ibd')[0].childNodes[0].nodeValue;
+                let namabarang = resp.getElementsByTagName('namabarang')[0].childNodes[0].nodeValue;
+                let jumlah = resp.getElementsByTagName('jumlah')[0].childNodes[0].nodeValue;
+                document.getElementById("nibd").value = id;
+                document.getElementById("nnamabarang").value = namabarang;
+                document.getElementById("njumlah").value = jumlah;
+
+
+
+            }
+            else (view.innerHTML = "Data tidak ada")
+
+        },
+        fail: function (e) { allert("error"); }
+
+    })
+
+}
+
+function updatedata() {
+    let view = document.getElementById('data');
+    let idobj = document.getElementById('inputid');
+    let ibd = idobj.elements[0].value;
+    let namas = idobj.elements[1].value;
+    let jumlahs = idobj.elements[2].value;
+    let url = 'http://localhost:8080/GUDANG/webresources/gudang.barang/';
+    let passvar =
+        '<barang>' +
+        '<ibd>' + ibd + '</ibd>' +
+        '<namabarang>' + namas + '</namabarang>' +
+        '<jumlah>' + jumlahs + '</jumlah>' +
+        '</barang>';
+    url += ibd;
+    $.ajax({
+        url: url,
+        method: 'PUT',
+        contentType: 'application/xml',
+        data: passvar,
+        success: function (resp) {
+            view.innerHTML = 'id: ' + ibd + ' updated';
+        },
+        fail: function (e) {
+            view.innerHTML = 'update failed';
+        }
+    })
+
 }
 function del() {
     let view = document.getElementById("delid");
@@ -73,7 +129,7 @@ function del() {
         dataType: "xml",
         success: function (resp) {
             view.innerHTML = 'ID : ' + idn + ' Telah Dihapus';
-     
+
 
         },
         fail: function (e) { allert("Data tidak ada"); }
@@ -81,26 +137,31 @@ function del() {
     })
 }
 
-function createdata(){
+function createdata() {
     let urls = "http://localhost:8080/GUDANG/webresources/gudang.barang";
     let view = document.getElementById('add');
     let idinput = document.getElementById('inputid');
-    let id = idinput.elements[0].value;
+    let ibd = idinput.elements[0].value;
     let nama = idinput.elements[1].value;
-    let nim = idinput.elements[2].value;
-    let xml = '<mahasiswa>';
-        xml += '<id>'+id+'</id><nama>'+nama+'</nama><nim>'+nim+'</nim>';
-        xml += '</mahasiswa>';
-    $.ajax ({
-        url : urls,
-        method : 'POST',
+    let jumlah = idinput.elements[2].value;
+    let xml =
+        '<barang>' +
+        '<ibd>' + ibd + '</ibd>' +
+        '<namabarang>' + nama + '</namabarang>' +
+        '<jumlah>' + jumlah + '</jumlah>' +
+        '</barang>';
+
+    $.ajax({
+        url: urls,
+        method: 'POST',
         contentType: 'application/xml',
         data: xml,
-        success : function (resp) {
-            view.innerHTML = '1 baris dengan id'+id+' sudah ditambahkan';
+        success: function (resp) {
+            view.innerHTML = '1 baris dengan id  ' + ibd + ' sudah ditambahkan';
         },
         fail: function (e) {
             view.innerHTML = 'Data gagal disimpan';
         }
     })
 }
+

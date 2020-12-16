@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="jquery.min.js"></script>
+    <script src="edit.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+</head>
+<body>
+    <h3>Update Data</h3>
+    <div>
+        <a href="main.html" target="#">Home</a>
+    </div>
+    <br>
+    <table>
+        <tr><td>ID</td>
+            <td><form><input type='text' id='ibd' value=''></input></form></td>
+            <td><button onclick="findforedit()">Find</button></td>
+    </tr>
+    </table>
+    <br>
+    <table>
+    <form id='inputid'>
+            <tr><td>ID Barang: </td><td><input type='text' id='nibd' value=''></input></td>
+            <tr><td>Nama Barang: </td><td><input type='text' id='nnamabarang' value=''></input></td>
+            <tr><td>Jumlah: </td><td><input type='text' id='njumlah' value=''></input></td>
+            </form>
+            <tr><td></td><td><button onclick="updatedata()">Update</button></td>
+        </table>
+        
+    <br>
+    <div id="data"></div>
+</body>
+</html>
